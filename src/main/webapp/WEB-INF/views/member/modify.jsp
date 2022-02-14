@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
+<c:set var="root" value="${pageContext.request.contextPath }/"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,7 @@
         <div class="col-sm-6">
             <div class="card shadow">
                 <div class="card-body">
-                    <form action="modify_user.html" method="post">
+                    <form action="<c:url value="/member/modify"/>" method="get">
                         <div class="form-group">
                             <label for="user_name">이름</label>
                             <input type="text" id="user_name" name="user_name" class="form-control" value="홍길동" disabled="disabled"/>

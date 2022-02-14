@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
+<c:set var="root" value="${pageContext.request.contextPath }/"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +29,7 @@
             <h3>로그인 실패</h3>
             <p>아이디 비밀번호를 확인해주세요</p>
           </div>
-          <form action="index.html" method="post">
+          <form action="<c:url value="/main"/>" method="get">
             <div class="form-group">
               <label for="user_id">아이디</label>
               <input type="text" id="user_id" name="user_id" class="form-control"/>
@@ -39,7 +40,7 @@
             </div>
             <div class="form-group text-right">
               <button type="submit" class="btn btn-primary">로그인</button>
-              <a href="join.html" class="btn btn-danger">회원가입</a>
+              <a href="<c:url value="/member/join"/>" class="btn btn-danger">회원가입</a>
             </div>
           </form>
         </div>
