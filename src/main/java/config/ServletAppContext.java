@@ -1,19 +1,20 @@
 package config;
 
+import interceptor.TopMenuInterceptor;
 import mapper.BoardMapper;
+import mapper.TopMenuMapper;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
+import service.TopMenuService;
 
 // Spring MVC 프로젝트에 관련된 설정을 하는 클래스
 @Configuration
@@ -21,6 +22,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 // 스캔할 패키지를 지정한다.
 @ComponentScan("controller")
+@ComponentScan("dao")
+@ComponentScan("service")
 @PropertySource("/WEB-INF/properties/db.properties")
 public class ServletAppContext implements WebMvcConfigurer{
 
@@ -91,6 +94,39 @@ public class ServletAppContext implements WebMvcConfigurer{
 		return factoryBean;
 
 	}
+
+	@Bean
+	public MapperFactoryBean<TopMenuMapper> getTopMenuMapper(SqlSessionFactory factory)
+			throws Exception{
+
+		MapperFactoryBean<TopMenuMapper> factoryBean =
+				new MapperFactoryBean<TopMenuMapper>(TopMenuMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+
+		return factoryBean;
+
+	}
+
+
+
+	// ** Interceptor 에서는 @Autowired 로 Bean 객체를 자동주입 받는것이 불가능하므로
+	// 여기서 자동주입한 후, interceptor 쪽에 Bean 객체를 넘겨주어야 한다.
+	@Autowired
+	private TopMenuService topMenuService;
+
+	// 상단 메뉴 interceptor
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		WebMvcConfigurer.super.addInterceptors(registry);
+
+		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(topMenuService);
+		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
+		reg1.addPathPatterns("/**"); // 모든 요청 주소에 대해 interceptor 가 동작.
+
+	}
+
+
 
 }
 
