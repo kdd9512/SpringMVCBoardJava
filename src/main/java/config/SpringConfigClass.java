@@ -17,7 +17,6 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 //
 //	@Override
 //	public void onStartup(ServletContext servletContext) throws ServletException {
-//		// TODO Auto-generated method stub
 //		// Spring MVC 프로젝트 설정을 위해 작성하는 클래스의 객체를 생성한다.
 //		AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
 //		servletAppContext.register(ServletAppContext.class);
@@ -48,28 +47,24 @@ public class SpringConfigClass extends AbstractAnnotationConfigDispatcherServlet
 	// DispatcherServlet에 매핑할 요청 주소를 셋팅한다.
 	@Override
 	protected String[] getServletMappings() {
-		// TODO Auto-generated method stub
 		return new String[] {"/"};
 	}
 	
 	// Spring MVC 프로젝트 설정을 위한 클래스를 지정한다.
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		// TODO Auto-generated method stub
 		return new Class[] {ServletAppContext.class};
 	}
 	
 	// 프로젝트에서 사용할 Bean들을 정의기 위한 클래스를 지정한다.
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		// TODO Auto-generated method stub
 		return new Class[] {RootAppContext.class};
 	}
 	
 	// 파라미터 인코딩 필터 설정
 	@Override
 	protected Filter[] getServletFilters() {
-		// TODO Auto-generated method stub
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		return new Filter[] {encodingFilter};

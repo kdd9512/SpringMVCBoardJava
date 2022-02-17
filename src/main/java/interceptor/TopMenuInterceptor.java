@@ -1,13 +1,13 @@
 package interceptor;
 
 import beans.BoardInfoBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import service.TopMenuService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+
 
 public class TopMenuInterceptor implements HandlerInterceptor {
 
@@ -19,18 +19,17 @@ public class TopMenuInterceptor implements HandlerInterceptor {
     // 2. interceptor 쪽으로 넘긴 다음
     // 3. interceptor 쪽에서 생성자를 이용해 주입해야 한다.
 
-    private final TopMenuService topMenuService;
+    private TopMenuService topMenuService;
 
     public TopMenuInterceptor(TopMenuService topMenuService) {
         this.topMenuService = topMenuService;
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest req,
-                             HttpServletResponse resp,
-                             Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
         List<BoardInfoBean> topMenuList = topMenuService.getTopMenuList();
-        req.setAttribute("topMenuList", topMenuList);
+        request.setAttribute("topMenuList", topMenuList);
 
         return true;
     }
