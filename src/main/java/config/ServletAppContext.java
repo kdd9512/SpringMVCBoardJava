@@ -73,8 +73,7 @@ public class ServletAppContext implements WebMvcConfigurer{
 	public SqlSessionFactory factory(BasicDataSource source) throws Exception{
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(source);
-		SqlSessionFactory factory = factoryBean.getObject();
-		return factory;
+		return factoryBean.getObject();
 	}
 
 	// 쿼리문 실행을 위한 객체(Mapper 관리)

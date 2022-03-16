@@ -6,6 +6,11 @@ public class BoardInfoBean {
     private int board_info_idx;
     private String board_info_name;
 
+    public BoardInfoBean(int board_info_idx, String board_info_name) {
+        this.board_info_idx = board_info_idx;
+        this.board_info_name = board_info_name;
+    }
+
     public int getBoard_info_idx() {
         return board_info_idx;
     }

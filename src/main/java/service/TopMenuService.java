@@ -10,12 +10,14 @@ import java.util.List;
 @Service
 public class TopMenuService {
 
-    @Autowired
-    private TopMenuDAO topMenuDao;
+    private final TopMenuDAO topMenuDao;
+
+    public TopMenuService(TopMenuDAO topMenuDao) {
+        this.topMenuDao = topMenuDao;
+    }
 
     public List<BoardInfoBean> getTopMenuList(){
-        List<BoardInfoBean> topMenuList = topMenuDao.getTopMenuList();
-        return topMenuList;
+      return topMenuDao.getTopMenuList();
     }
 
 

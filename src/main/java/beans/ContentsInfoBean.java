@@ -11,6 +11,22 @@ public class ContentsInfoBean {
     private int content_board_idx;
     private String content_date;
 
+    public ContentsInfoBean() {
+    }
+
+    public ContentsInfoBean(int content_idx, String content_subject,
+                            String content_text, String content_file,
+                            int content_writer_idx, int content_board_idx,
+                            String content_date) {
+        this.content_idx = content_idx;
+        this.content_subject = content_subject;
+        this.content_text = content_text;
+        this.content_file = content_file;
+        this.content_writer_idx = content_writer_idx;
+        this.content_board_idx = content_board_idx;
+        this.content_date = content_date;
+    }
+
     public int getContent_idx() {
         return content_idx;
     }
