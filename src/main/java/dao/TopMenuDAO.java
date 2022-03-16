@@ -10,11 +10,8 @@ import java.util.List;
 @Repository
 public class TopMenuDAO {
 
-    private final TopMenuMapper topMenuMapper;
-
-    public TopMenuDAO(TopMenuMapper topMenuMapper) {
-        this.topMenuMapper = topMenuMapper;
-    }
+    @Autowired
+    private TopMenuMapper topMenuMapper;
 
     public List<BoardInfoBean> getTopMenuList(){
         return topMenuMapper.getTopMenuList();

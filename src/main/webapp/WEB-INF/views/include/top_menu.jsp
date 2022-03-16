@@ -1,4 +1,5 @@
 <%@ page import="java.util.Enumeration" %>
+<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
@@ -13,8 +14,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
+<%-- <%@ page isELIgnored="false" %> 추가하니 정상적으로 request 값을 받아온다. --%>
         <ul class="navbar-nav">
-            <jsp:useBean id="topMenuList" scope="request" type="java.util.ArrayList"/>
             <c:forEach var="obj" items="${topMenuList}">
                 <li class="nav-item">
                     <a href="<c:url value="/board/main?board_info_idx=${obj.board_info_idx}"/>"
@@ -22,7 +23,6 @@
                 </li>
             </c:forEach>
         </ul>
-
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a href="<c:url value="/member/login"/>" class="nav-link">로그인</a>
