@@ -1,7 +1,5 @@
-<%@ page import="java.util.Enumeration" %>
-<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
 <%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top shadow-lg">
@@ -14,7 +12,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
-<%-- <%@ page isELIgnored="false" %> 추가하니 정상적으로 request 값을 받아온다. --%>
+<%-- <%@ page isELIgnored="false" %> (표현언어 = EL 무시할건가? 를 묻는 것)추가해야 정상적으로 request 값을 받아온다. --%>
+<%-- 이걸 false로 해주지 않으면 표현언어 구문 해석 시 단순한 text 로 해석한다. --%>
         <ul class="navbar-nav">
             <c:forEach var="obj" items="${topMenuList}">
                 <li class="nav-item">
