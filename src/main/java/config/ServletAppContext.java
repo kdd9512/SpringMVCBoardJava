@@ -2,6 +2,7 @@ package config;
 
 import interceptor.TopMenuInterceptor;
 import mapper.BoardMapper;
+import mapper.MemberMapper;
 import mapper.TopMenuMapper;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -94,6 +95,14 @@ public class ServletAppContext implements WebMvcConfigurer{
 		return factoryBean;
 	}
 
+	@Bean
+	public MapperFactoryBean<MemberMapper> getMemberMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<MemberMapper> factoryBean = new MapperFactoryBean<MemberMapper>(MemberMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}
+
+	// Interceptor 관리.
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
