@@ -20,5 +20,10 @@ public class MemberValidator implements Validator {
             errors.rejectValue("user_pw", "NotEquals");
             errors.rejectValue("user_pw2", "NotEquals");
         }
+
+        if (!memberBean.isMemberIdExist()) {
+            errors.rejectValue("user_id","DoNotCheckIdExist");
+        }
+
     }
 }

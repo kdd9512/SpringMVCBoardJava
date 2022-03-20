@@ -17,6 +17,40 @@
 </head>
 <body>
 
+<script>
+    function checkMemberIdExist() {
+
+        let user_id = $("#user_id").val()
+
+        if (user_id.length == 0) {
+            alert("아이디를 입력하세요.")
+            return
+        }
+
+        $.ajax({
+            url : "/member/checkMemberIdExist/" + user_id,
+            type : "get",
+            dataType : "text",
+            success : function (result) {
+                if (result.trim() === "true") {
+                    alert("사용 가능한 아이디입니다.")
+                    $("#memberIdExist").val('true')
+                } else {
+                    alert("사용할 수 없는 아이디입니다.")
+                    $("#memberIdExist").val('false')
+                }
+            }
+            
+        })
+
+    }
+    // 사용자 아이디 입력칸을 클릭한 뒤 문자를 입력하면 기본값(검사하기 이전이므로 false)을 전달.
+    function resetMemberIdExist() {
+        $("#memberIdExist").val('false')
+    }
+    
+</script>
+
 <!-- 상단 메뉴 부분(navbar) -->
 <c:import url="/WEB-INF/views/include/top_menu.jsp"/>
 
@@ -28,6 +62,7 @@
                 <div class="card-body">
                     <%-- 커스텀 태그 설정 --%>
                     <form:form action="/member/join_pro" method="post" modelAttribute="joinMemberBean">
+                        <form:hidden path="memberIdExist"/>
                         <div class="form-group">
                             <form:label path="user_name">이름</form:label>
                             <form:input path="user_name" class="form-control"/>
@@ -36,9 +71,9 @@
                         <div class="form-group">
                             <form:label path="user_id">아이디</form:label>
                             <div class="input-group">
-                                <form:input path="user_id" class="form-control"/>
+                                <form:input path="user_id" class="form-control" onkeypress="resetMemberIdExist()"/>
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-primary">중복확인</button>
+                                    <button type="button" class="btn btn-primary" onclick="checkMemberIdExist()">중복확인</button>
                                 </div>
                             </div>
                             <form:errors path="user_id" style="color:red"/>

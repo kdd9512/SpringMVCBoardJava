@@ -25,6 +25,12 @@ public class MemberInfoBean {
     @Pattern(regexp = "[a-zA-Z0-9]*")
     private String user_pw2;
 
+    private boolean memberIdExist; // join.jsp 의 유효성 검사를 위한 value
+
+    public MemberInfoBean() {
+        // 기본값을 false 로 설정.(검사 실행여부에 따라 T/F)
+        this.memberIdExist = false;
+    }
 
     public int getUser_idx() {
         return user_idx;
@@ -64,5 +70,13 @@ public class MemberInfoBean {
 
     public void setUser_pw2(String user_pw2) {
         this.user_pw2 = user_pw2;
+    }
+
+    public boolean isMemberIdExist() {
+        return memberIdExist;
+    }
+
+    public void setMemberIdExist(boolean memberIdExist) {
+        this.memberIdExist = memberIdExist;
     }
 }

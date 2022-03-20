@@ -12,7 +12,7 @@ public class RestApiController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/member/checkUserIdExist/{user_id}")
+    @GetMapping("/member/checkMemberIdExist/{user_id}")
     public String memberIdExist(@PathVariable String user_id){
         boolean check = memberService.checkMemberIdExist(user_id);
 
