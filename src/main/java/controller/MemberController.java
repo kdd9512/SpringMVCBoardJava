@@ -1,10 +1,12 @@
 package controller;
 
 import beans.MemberInfoBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import service.MemberService;
 import validator.MemberValidator;
 
 import javax.validation.Valid;
@@ -12,6 +14,9 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
+
+    @Autowired
+    private MemberService memberService;
 
     @GetMapping("/login")
     public String login(){
@@ -32,6 +37,8 @@ public class MemberController {
         if (result.hasErrors()){
             return "/member/join";
         }
+
+        memberService.addMemberInfo(joinMemberBean);
 
         return "/member/join_success";
     }
@@ -54,5 +61,6 @@ public class MemberController {
 
         return "/member/logout";
     }
+
 
 }

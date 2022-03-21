@@ -1,5 +1,6 @@
 package dao;
 
+import beans.MemberInfoBean;
 import mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,8 @@ public class MemberDAO {
         return memberMapper.checkMemberIdExist(user_id);
     }
 
+    public void addMemberInfo(MemberInfoBean joinMemberBean) {
+        memberMapper.addMemberInfo(joinMemberBean);
+    }
 
 }
