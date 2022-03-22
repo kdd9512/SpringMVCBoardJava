@@ -19,7 +19,7 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping("/login")
-    public String login(){
+    public String login(@ModelAttribute("tempLoginMemberBean") MemberInfoBean tempLoginMemberBean ){
 
         return "/member/login";
     }

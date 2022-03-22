@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 <!DOCTYPE html>
@@ -29,20 +30,22 @@
             <h3>로그인 실패</h3>
             <p>아이디 비밀번호를 확인해주세요</p>
           </div>
-          <form action="<c:url value="/main"/>" method="get">
+            <form:form action="/member/login_pro" method="post" modelAttribute="tempLoginMemberBean">
             <div class="form-group">
-              <label for="user_id">아이디</label>
-              <input type="text" id="user_id" name="user_id" class="form-control"/>
+              <form:label path="user_id">아이디</form:label>
+              <form:input path="user_id" class="form-control"/>
+              <form:errors path="user_id" style="color:red"/>
             </div>
             <div class="form-group">
-              <label for="user_pw">비밀번호</label>
-              <input type="password" id="user_pw" name="user_pw" class="form-control"/>
+              <form:label path="user_pw">비밀번호</form:label>
+              <form:password path="user_pw" class="form-control"/>
+              <form:errors path="user_pw" style="color:red"/>
             </div>
             <div class="form-group text-right">
-              <button type="submit" class="btn btn-primary">로그인</button>
+              <form:button class="btn btn-primary">로그인</form:button>
               <a href="<c:url value="/member/join"/>" class="btn btn-danger">회원가입</a>
             </div>
-          </form>
+            </form:form>
         </div>
       </div>
     </div>

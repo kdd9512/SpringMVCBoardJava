@@ -27,9 +27,13 @@ public class MemberInfoBean {
 
     private boolean memberIdExist; // join.jsp 의 유효성 검사를 위한 value
 
+    private boolean memberLogin;
+
+
     public MemberInfoBean() {
         // 기본값을 false 로 설정.(검사 실행여부에 따라 T/F)
         this.memberIdExist = false;
+        this.memberLogin = false;
     }
 
     public int getUser_idx() {
@@ -78,5 +82,13 @@ public class MemberInfoBean {
 
     public void setMemberIdExist(boolean memberIdExist) {
         this.memberIdExist = memberIdExist;
+    }
+
+    public boolean isMemberLogin() {
+        return memberLogin;
+    }
+
+    public void setMemberLogin(boolean memberLogin) {
+        this.memberLogin = memberLogin;
     }
 }
