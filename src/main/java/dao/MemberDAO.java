@@ -19,4 +19,8 @@ public class MemberDAO {
         memberMapper.addMemberInfo(joinMemberBean);
     }
 
+    public MemberInfoBean getLoginMemberInfo(MemberInfoBean tempLoginMemberBean) {
+        return memberMapper.getLoginMemberInfo(tempLoginMemberBean);
+    }
+
 }

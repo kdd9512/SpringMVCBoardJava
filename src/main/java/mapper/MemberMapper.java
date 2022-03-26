@@ -20,4 +20,11 @@ public interface MemberMapper {
             "#{user_name}, #{user_id}, #{user_pw}) ")
     void addMemberInfo(MemberInfoBean joinMemberBean);
 
+    @Select("select user_idx, user_name " +
+            "from user_table " +
+            "where user_id=#{user_id} and user_pw=#{user_pw} ")
+    MemberInfoBean getLoginMemberInfo(MemberInfoBean tempLoginMemberBean);
+
+
+
 }
