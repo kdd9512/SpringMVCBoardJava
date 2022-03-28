@@ -1,5 +1,7 @@
 package config;
 
+import beans.MemberInfoBean;
+import interceptor.CheckLoginInterceptor;
 import interceptor.TopMenuInterceptor;
 import mapper.BoardMapper;
 import mapper.MemberMapper;
@@ -19,6 +21,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.*;
 import service.TopMenuService;
+
+import javax.annotation.Resource;
 
 // Spring MVC 프로젝트에 관련된 설정을 하는 클래스
 @Configuration
@@ -45,6 +49,9 @@ public class ServletAppContext implements WebMvcConfigurer{
 
 	@Autowired
 	private TopMenuService topMenuService;
+
+	@Resource(name = "loginMemberBean")
+	private MemberInfoBean loginMemberBean;
 
 	// Controller의 메서드가 반환하는 jsp의 이름 앞뒤에 경로와 확장자를 붙혀주도록 설정한다.
 	@Override
@@ -107,10 +114,17 @@ public class ServletAppContext implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
 
-		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(topMenuService);
+		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(topMenuService, loginMemberBean);
 
 		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
 		reg1.addPathPatterns("/**");
+
+		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginMemberBean);
+		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
+		// 이하의 경로에서 Interceptor 가 작동한다.
+		reg2.addPathPatterns("/member/modify", "/member/logout", "/board/*", "/member/login_*", "/member/login_pro");
+		// 이하의 경로에서는 Interceptor 를 적용하지 않는다.
+		reg2.excludePathPatterns("/board/main");
 	}
 
 	// 내부설정을 외부에 저장하는 환경설정 파일로 분리하여 DB 정보 properties 등록.

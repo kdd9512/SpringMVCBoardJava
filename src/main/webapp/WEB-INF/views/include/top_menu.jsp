@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top shadow-lg">
@@ -12,8 +12,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
-<%-- <%@ page isELIgnored="false" %> (표현언어 = EL 무시할건가? 를 묻는 것)추가해야 정상적으로 request 값을 받아온다. --%>
-<%-- 이걸 false로 해주지 않으면 표현언어 구문 해석 시 단순한 text 로 해석한다. --%>
+        <%-- <%@ page isELIgnored="false" %> (표현언어(EL) 을 무시할건가? 를 묻는 것)추가해야 정상적으로 request 값을 받아온다. --%>
+        <%-- 이걸 false로 해주지 않으면 표현언어 구문 해석 시 단순한 text 로 해석한다. --%>
         <ul class="navbar-nav">
             <c:forEach var="obj" items="${topMenuList}">
                 <li class="nav-item">
@@ -23,18 +23,26 @@
             </c:forEach>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a href="<c:url value="/member/login"/>" class="nav-link">로그인</a>
-            </li>
-            <li class="nav-item">
-                <a href="<c:url value="/member/join"/>" class="nav-link">회원가입</a>
-            </li>
-            <li class="nav-item">
-                <a href="<c:url value="/member/modify"/>" class="nav-link">정보수정</a>
-            </li>
-            <li class="nav-item">
-                <a href="<c:url value="/member/logout"/>" class="nav-link">로그아웃</a>
-            </li>
+            <c:choose>
+                <%-- 로그인 한 경우 --%>
+                <c:when test="${loginMemberBean.memberLogin == true}">
+                    <li class="nav-item">
+                        <a href="<c:url value="/member/modify"/>" class="nav-link">정보수정</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<c:url value="/member/logout"/>" class="nav-link">로그아웃</a>
+                    </li>
+                </c:when>
+                <%-- 로그인 안한 경우 --%>
+                <c:otherwise>
+                    <li class="nav-item">
+                        <a href="<c:url value="/member/login"/>" class="nav-link">로그인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<c:url value="/member/join"/>" class="nav-link">회원가입</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
         </ul>
     </div>
 </nav>

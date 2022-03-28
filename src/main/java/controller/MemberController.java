@@ -51,6 +51,18 @@ public class MemberController {
 
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        loginMemberBean.setMemberLogin(false);
+        return "/member/logout";
+    }
+
+    @GetMapping("/not_login")
+    public String not_login() {
+        return "/member/not_login";
+    }
+
+
     // 회원가입 부분
     @GetMapping("/join")
     public String join(@ModelAttribute("joinMemberBean") MemberInfoBean joinMemberBean) {
@@ -83,12 +95,6 @@ public class MemberController {
     public String memberConfig() {
 
         return "/member/modify";
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-
-        return "/member/logout";
     }
 
 

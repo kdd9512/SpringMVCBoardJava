@@ -1,6 +1,7 @@
 package interceptor;
 
 import beans.BoardInfoBean;
+import beans.MemberInfoBean;
 import org.springframework.web.servlet.HandlerInterceptor;
 import service.TopMenuService;
 
@@ -20,9 +21,11 @@ public class TopMenuInterceptor implements HandlerInterceptor {
     // 3. interceptor 쪽에서 생성자를 이용해 주입해야 한다.
 
     private TopMenuService topMenuService;
+    private MemberInfoBean loginMemberBean;
 
-    public TopMenuInterceptor(TopMenuService topMenuService) {
+    public TopMenuInterceptor(TopMenuService topMenuService, MemberInfoBean loginMemberBean) {
         this.topMenuService = topMenuService;
+        this.loginMemberBean = loginMemberBean;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
             throws Exception {
         List<BoardInfoBean> topMenuList = topMenuService.getTopMenuList();
         request.setAttribute("topMenuList", topMenuList);
+        request.setAttribute("loginMemberBean", loginMemberBean);
 
         return true;
     }
