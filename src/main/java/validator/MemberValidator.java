@@ -23,12 +23,14 @@ public class MemberValidator implements Validator {
 //        System.out.println(beanName);
 
         // error 가 발생한 Object 의 이름이 이하(joinMemberBean)와 같을 때에만 작동.
-        if (beanName.equals("joinMemberBean")) {
+        if (beanName.equals("joinMemberBean") || beanName.equals("modifyMemberBean")) {
             if (!memberBean.getUser_pw().equals(memberBean.getUser_pw2())) {
                 errors.rejectValue("user_pw", "NotEquals");
                 errors.rejectValue("user_pw2", "NotEquals");
             }
+        }
 
+        if (beanName.equals("joinMemberBean")) {
             if (!memberBean.isMemberIdExist()) {
                 errors.rejectValue("user_id", "DoNotCheckIdExist");
             }

@@ -38,4 +38,12 @@ public class MemberService {
         }
     }
 
+    public void getModifyMemberInfo(MemberInfoBean modifyMemberBean) {
+        MemberInfoBean tempModifyMemberBean = memberDAO.getModifyMemberInfo(loginMemberBean.getUser_idx());
+
+        modifyMemberBean.setUser_id(tempModifyMemberBean.getUser_id());
+        modifyMemberBean.setUser_name(tempModifyMemberBean.getUser_name());
+        modifyMemberBean.setUser_idx(loginMemberBean.getUser_idx()); // idx 가지고 회원정보 찾는거니 이곳에 sql 로 가져온 idx 를 담는다.
+    }
+
 }

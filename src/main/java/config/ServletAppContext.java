@@ -122,7 +122,7 @@ public class ServletAppContext implements WebMvcConfigurer{
 		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginMemberBean);
 		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
 		// 이하의 경로에서 Interceptor 가 작동한다.
-		reg2.addPathPatterns("/member/modify", "/member/logout", "/board/*", "/member/login_*", "/member/login_pro");
+		reg2.addPathPatterns("/member/modify*", "/member/logout", "/board/*");
 		// 이하의 경로에서는 Interceptor 를 적용하지 않는다.
 		reg2.excludePathPatterns("/board/main");
 	}

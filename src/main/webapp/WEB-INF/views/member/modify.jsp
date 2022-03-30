@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 <!DOCTYPE html>
@@ -26,30 +27,32 @@
         <div class="col-sm-6">
             <div class="card shadow">
                 <div class="card-body">
-                    <form action="<c:url value="/member/modify"/>" method="get">
+                    <form:form action="/member/modify_pro" method="post" modelAttribute="modifyMemberBean">
                         <div class="form-group">
-                            <label for="user_name">이름</label>
-                            <input type="text" id="user_name" name="user_name" class="form-control" value="홍길동" disabled="disabled"/>
+                            <form:label path="user_name">이름</form:label>
+<%-- disable 보다 readOnly 가 낫다. 비활성화를 해버리면 modelAttribute 에서 값을 못가져오는 경우가 생긴다. --%>
+                            <form:input path="user_name" class="form-control" readonly="true"/>
                         </div>
                         <div class="form-group">
-                            <label for="user_id">아이디</label>
-                            <input type="text" id="user_id" name="user_id" class="form-control" value="abc" disabled="disabled"/>
+                            <form:label path="user_id">아이디</form:label>
+                            <form:input path="user_id" class="form-control" readonly="true"/>
                         </div>
                         <div class="form-group">
-                            <label for="user_pw">비밀번호</label>
-                            <input type="password" id="user_pw" name="user_pw" class="form-control" value="1234"/>
+                            <form:label path="user_pw">비밀번호</form:label>
+                            <form:password path="user_pw" class="form-control"/>
+                            <form:errors path="user_pw" style="color:red"/>
                         </div>
                         <div class="form-group">
-                            <label for="user_pw2">비밀번호 확인</label>
-                            <input type="password" id="user_pw2" name="user_pw2" class="form-control" value="1234"/>
+                            <form:label path="user_pw2">비밀번호 확인</form:label>
+                            <form:password path="user_pw2" class="form-control"/>
+                            <form:errors path="user_pw2" style="color:red"/>
                         </div>
                         <div class="form-group">
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">정보수정</button>
+                                <form:button class="btn btn-primary">정보수정</form:button>
                             </div>
                         </div>
-
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

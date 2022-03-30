@@ -25,6 +25,10 @@ public interface MemberMapper {
             "where user_id=#{user_id} and user_pw=#{user_pw} ")
     MemberInfoBean getLoginMemberInfo(MemberInfoBean tempLoginMemberBean);
 
+    @Select("select user_id, user_name " +
+            "from user_table " +
+            "where user_idx = #{user_idx}")
+    MemberInfoBean getModifyMemberInfo(int user_idx); // user_idx 로 찾아야 하니까 당연히 parameter 는 user_idx.
 
 
 }

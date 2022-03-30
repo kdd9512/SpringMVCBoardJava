@@ -23,4 +23,8 @@ public class MemberDAO {
         return memberMapper.getLoginMemberInfo(tempLoginMemberBean);
     }
 
+    public MemberInfoBean getModifyMemberInfo(int user_idx) {
+        return memberMapper.getModifyMemberInfo(user_idx);
+    }
+
 }
