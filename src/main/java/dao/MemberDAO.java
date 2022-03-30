@@ -27,4 +27,8 @@ public class MemberDAO {
         return memberMapper.getModifyMemberInfo(user_idx);
     }
 
+    public void modifyMemberInfo(MemberInfoBean modifyMemberBean) {
+        memberMapper.modifyMemberInfo(modifyMemberBean);
+    }
+
 }

@@ -46,4 +46,10 @@ public class MemberService {
         modifyMemberBean.setUser_idx(loginMemberBean.getUser_idx()); // idx 가지고 회원정보 찾는거니 이곳에 sql 로 가져온 idx 를 담는다.
     }
 
+    public void modifyMemberInfo(MemberInfoBean modifyMemberBean) {
+        modifyMemberBean.setUser_idx(loginMemberBean.getUser_idx()); // 사용자번호가 필요하므로, sql 로 가져온 idx 를 가져옴.
+
+        // 비밀번호는 parameter 로 넘어오는 데이터를 자동으로 주입받으므로 여기서 가져올 필요는 없다.
+        memberDAO.modifyMemberInfo(modifyMemberBean);
+    }
 }

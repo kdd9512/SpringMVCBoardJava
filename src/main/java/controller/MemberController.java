@@ -106,6 +106,9 @@ public class MemberController {
             return "/member/modify";
         }
 
+        // modifyMemberBean 에 입력받은 password 가 있을 것이다.
+        memberService.modifyMemberInfo(modifyMemberBean);
+
         return "/member/modify_success";
     }
 

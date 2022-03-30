@@ -3,6 +3,7 @@ package mapper;
 import beans.MemberInfoBean;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -30,5 +31,9 @@ public interface MemberMapper {
             "where user_idx = #{user_idx}")
     MemberInfoBean getModifyMemberInfo(int user_idx); // user_idx 로 찾아야 하니까 당연히 parameter 는 user_idx.
 
+    @Update("update user_table " +
+            "set user_pw = #{user_pw} " +
+            "where user_idx = #{user_idx}")
+    void modifyMemberInfo(MemberInfoBean modifyMemberBean);
 
 }
