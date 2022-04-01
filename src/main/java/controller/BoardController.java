@@ -3,10 +3,10 @@ package controller;
 import beans.ContentsInfoBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/board")
@@ -23,6 +23,15 @@ public class BoardController {
     @GetMapping("/write")
     public String boardWrite(@ModelAttribute("writeContentBean") ContentsInfoBean writeContentBean){
         return "/board/write";
+    }
+
+    @PostMapping("/write_pro")
+    public String write_pro(@Valid @ModelAttribute("writeContentBean") ContentsInfoBean writeContentBean,
+                            BindingResult result) {
+        if (result.hasErrors()) {
+            return "/board/write";
+        }
+        return "/board/write_success";
     }
 
     @GetMapping("/read")

@@ -1,10 +1,15 @@
 package beans;
 
+import javax.validation.constraints.NotBlank;
+
 public class ContentsInfoBean {
 
     // 테이블 구조와 동일한 Bean 을 정의한다.
+
     private int content_idx;
+    @NotBlank // 비어있으면 오류 발생시키는 annotation.
     private String content_subject;
+    @NotBlank // 비어있으면 오류 발생시키는 annotation.
     private String content_text;
     private String content_file;
     private int content_writer_idx;
