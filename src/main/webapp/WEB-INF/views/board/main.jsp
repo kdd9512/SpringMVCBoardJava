@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- 종종 주소에 jsessionid 라고 붙는 현상 방지 --%>
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
@@ -160,7 +160,11 @@
             </div>
 
             <div class="text-right">
-                <a href="board_write.html" class="btn btn-primary">글쓰기</a>
+                <%--
+                    Controller 의 Model 에서 저장한 props "board_info_idx" 를 main 에 넘겼으므로,
+                    글쓰기를 호출한 게시판이 어디인지 구별 가능하다.
+                --%>
+                <a href="<c:url value="/board/write?board_info_idx=${board_info_idx}"/>" class="btn btn-primary">글쓰기</a>
             </div>
 
         </div>

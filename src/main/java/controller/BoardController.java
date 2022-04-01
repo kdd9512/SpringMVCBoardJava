@@ -1,41 +1,46 @@
 package controller;
 
+import beans.ContentsInfoBean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
 
     @GetMapping("/main")
-    public String boardMain(){
-
+    public String boardMain(@RequestParam("board_info_idx") int board_info_idx,
+                            Model model){
+        // 어느 게시판에서 글을 쓰고 있는지를 알아야 하므로 board_info_idx 를 param 으로 보내 구분할 수 있게 한다.
+        model.addAttribute("board_info_idx",board_info_idx);
         return "/board/main";
     }
 
-    @GetMapping("/board_write")
-    public String boardWrite(){
-
-        return "/board/board_write";
+    @GetMapping("/write")
+    public String boardWrite(@ModelAttribute("writeContentBean") ContentsInfoBean writeContentBean){
+        return "/board/write";
     }
 
-    @GetMapping("/board_read")
+    @GetMapping("/read")
     public String boardRead(){
 
-        return "/board/board_read";
+        return "/board/read";
     }
 
-    @GetMapping("/board_modify")
+    @GetMapping("/modify")
     public String boardModify(){
 
-        return "/board/board_modify";
+        return "/board/modify";
     }
 
-    @GetMapping("/board_remove")
+    @GetMapping("/remove")
     public String boardRemove(){
 
-        return "/board/board_remove";
+        return "/board/remove";
     }
 
 }
