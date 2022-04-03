@@ -138,15 +138,16 @@ public class ServletAppContext implements WebMvcConfigurer{
 	// 에러 메세지 properties 등록.
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource(){
-		ReloadableResourceBundleMessageSource res = new ReloadableResourceBundleMessageSource();
-		res.setBasenames("/WEB-INF/properties/errorMsg");
+		ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
+		resource.setBasenames("/WEB-INF/properties/errorMsg");
 
-		return res;
+		return resource;
 	}
 
 	// 작성한 게시글 데이터 전송을 위한 Bean.
 	// enctype="multipart/form-data" 를 이용하여 데이터를 전송하기 때문에, ContentsInfoBean 에 더 이상 데이터가 들어가지 않는다.
 	// 즉, ContentsInfoBean 에 정의해놓은 @NotBlank 를 이용한 validate 가 작동하지 않음(무조건 실패처리)
+	// ** 이 부분은 Xml 에서 filter 가 자동으로 연결되지 않으므로, web.xml 에서 filter 설정을 따로 해주어야 한다.
 	@Bean
 	StandardServletMultipartResolver multipartResolver(){
 		return new StandardServletMultipartResolver();

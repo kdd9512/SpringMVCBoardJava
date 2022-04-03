@@ -27,6 +27,8 @@
                 <div class="card-body">
                     <%-- enctype="multipart/form-data" 는 웹 표준으로, form 태그 내에서 입력된 문자data 와 첨부file 을 전송 가능하게 한다. --%>
                     <form:form action="/board/write_pro" method="post" modelAttribute="writeContentBean" enctype="multipart/form-data">
+                        <%-- 어느 게시판에서 작성하는건지 구분하기 위해 게시판 번호를 보낸다. --%>
+                        <form:hidden path="content_board_idx"/>
                         <div class="form-group">
                             <form:label path="content_subject">제목</form:label>
                             <form:input path="content_subject" class="form-control"/>
