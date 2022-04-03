@@ -1,5 +1,7 @@
 package beans;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.NotBlank;
 
 public class ContentsInfoBean {
@@ -11,6 +13,12 @@ public class ContentsInfoBean {
     private String content_subject;
     @NotBlank // 비어있으면 오류 발생시키는 annotation.
     private String content_text;
+
+    // content_file 은 return 값이 String 인데,
+    // 업로드 하는 file 이 String 일 수가 없으므로 오류가 발생할 것이다. 그러므로 용도를 둘로 나눈다.
+    // 1. content_file 은 파일의 이름을 담는다.
+    // 2. upload_file 는 실제 파일의 정보를 담는다.
+    private MultipartFile upload_file;
     private String content_file;
     private int content_writer_idx;
     private int content_board_idx;
@@ -86,5 +94,13 @@ public class ContentsInfoBean {
 
     public void setContent_date(String content_date) {
         this.content_date = content_date;
+    }
+
+    public MultipartFile getUpload_file() {
+        return upload_file;
+    }
+
+    public void setUpload_file(MultipartFile upload_file) {
+        this.upload_file = upload_file;
     }
 }

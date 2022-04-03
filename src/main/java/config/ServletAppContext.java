@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import service.TopMenuService;
 
@@ -141,6 +142,14 @@ public class ServletAppContext implements WebMvcConfigurer{
 		res.setBasenames("/WEB-INF/properties/errorMsg");
 
 		return res;
+	}
+
+	// 작성한 게시글 데이터 전송을 위한 Bean.
+	// enctype="multipart/form-data" 를 이용하여 데이터를 전송하기 때문에, ContentsInfoBean 에 더 이상 데이터가 들어가지 않는다.
+	// 즉, ContentsInfoBean 에 정의해놓은 @NotBlank 를 이용한 validate 가 작동하지 않음(무조건 실패처리)
+	@Bean
+	StandardServletMultipartResolver multipartResolver(){
+		return new StandardServletMultipartResolver();
 	}
 
 }

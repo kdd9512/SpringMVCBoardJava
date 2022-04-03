@@ -1,10 +1,6 @@
 package config;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -43,6 +39,8 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 //	}
 //}
 
+
+// XML 방식의 web.xml 과 같은 역할.
 public class SpringConfigClass extends AbstractAnnotationConfigDispatcherServletInitializer{
 	// DispatcherServlet에 매핑할 요청 주소를 셋팅한다.
 	@Override
@@ -68,6 +66,18 @@ public class SpringConfigClass extends AbstractAnnotationConfigDispatcherServlet
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		return new Filter[] {encodingFilter};
+	}
+
+	@Override
+	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+		super.customizeRegistration(registration);
+
+		// 1. 클라이언트가 보낸 파일을 임시로 저장할 임시파일의 경로. null 로 설정하면 apache tomcat 에서 정한 임시파일 경로를 이용하게 된다.
+		// 2. upload 하는 파일의 최대용량(bite 단위로 넣어야 한다. 1kb 는 1024 bite, 1mb 는 1024kb, 1gb 는 1024mb). 이하는 50mb로 지정.
+		// 3. file 데이터 포함한 전체 요청용량(bite 단위로 넣어야 한다. 1kb 는 1024 bite, 1mb 는 1024kb, 1gb 는 1024mb). 이하는 50mb로 지정.
+		// 4. file 의 인계값. 0 으로 설정하면, 자동으로 데이터를 받아 설정하게 된다.
+		MultipartConfigElement config1 = new MultipartConfigElement(null,52428800,524288000,0);
+		registration.setMultipartConfig(config1);
 	}
 }
 

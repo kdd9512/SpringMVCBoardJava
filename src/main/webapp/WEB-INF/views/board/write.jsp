@@ -25,7 +25,8 @@
         <div class="col-sm-6">
             <div class="card shadow">
                 <div class="card-body">
-                    <form:form action="/board/write_pro" method="post" modelAttribute="writeContentBean">
+                    <%-- enctype="multipart/form-data" 는 웹 표준으로, form 태그 내에서 입력된 문자data 와 첨부file 을 전송 가능하게 한다. --%>
+                    <form:form action="/board/write_pro" method="post" modelAttribute="writeContentBean" enctype="multipart/form-data">
                         <div class="form-group">
                             <form:label path="content_subject">제목</form:label>
                             <form:input path="content_subject" class="form-control"/>
@@ -37,8 +38,8 @@
                             <form:errors path="content_text" style="color:red"/>
                         </div>
                         <div class="form-group">
-                            <form:label path="content_file">첨부 이미지</form:label>
-                            <form:input type="file" path="content_file" class="form-control" accept="image/*" />
+                            <form:label path="upload_file">첨부 이미지</form:label>
+                            <form:input type="file" path="upload_file" class="form-control" accept="image/*" />
                         </div>
                         <div class="form-group">
                             <div class="text-right">
