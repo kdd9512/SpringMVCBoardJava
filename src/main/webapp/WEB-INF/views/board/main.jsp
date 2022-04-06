@@ -36,8 +36,9 @@
                 <tbody>
                 <c:forEach var="obj" items="${contentList}">
                     <tr>
-                        <td class="text-center d-none d-md-table-cell">${obj.content_board_idx}</td>
-                        <td><a href='<c:url value="/board/read"/>'>${obj.content_subject}</a></td>
+                        <td class="text-center d-none d-md-table-cell">${obj.content_idx}</td>
+                        <td><a href='<c:url value="/board/read?board_info_idx=${board_info_idx}&content_idx=${obj.content_idx}"/>'>
+                                ${obj.content_subject}</a></td>
                         <td class="text-center d-none d-md-table-cell">${obj.content_writer_name}</td>
                         <td class="text-center d-none d-md-table-cell">${obj.content_date}</td>
                     </tr>

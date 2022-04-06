@@ -24,4 +24,8 @@ public class BoardDAO {
     public List<ContentsInfoBean> getContentBean(int board_info_idx) {
         return boardMapper.getContentBean(board_info_idx);
     }
+
+    public ContentsInfoBean getContentInfo(int content_idx) {
+        return boardMapper.getContentInfo(content_idx);
+    }
 }
