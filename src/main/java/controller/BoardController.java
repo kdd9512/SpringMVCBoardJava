@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import service.BoardService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/board")
@@ -22,6 +23,13 @@ public class BoardController {
                             Model model){
         // 어느 게시판에서 글을 쓰고 있는지를 알아야 하므로 board_info_idx 를 param 으로 보내 구분할 수 있게 한다.
         model.addAttribute("board_info_idx",board_info_idx);
+
+        String boardInfoName = boardService.getBoardInfoName(board_info_idx);
+        model.addAttribute("boardInfoName", boardInfoName);
+
+        List<ContentsInfoBean> contentList = boardService.getContentBean(board_info_idx);
+        model.addAttribute("contentList",contentList);
+
         return "/board/main";
     }
 

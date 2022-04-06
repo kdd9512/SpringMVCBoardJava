@@ -5,6 +5,8 @@ import mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class BoardDAO {
 
@@ -15,4 +17,11 @@ public class BoardDAO {
         boardMapper.addContentInfo(writeContentBean);
     }
 
+    public String getBoardInfoName(int board_info_idx) {
+        return boardMapper.getBoardInfoName(board_info_idx);
+    }
+
+    public List<ContentsInfoBean> getContentBean(int board_info_idx) {
+        return boardMapper.getContentBean(board_info_idx);
+    }
 }
