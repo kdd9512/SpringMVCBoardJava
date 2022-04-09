@@ -15,10 +15,11 @@ public interface BoardMapper {
                                          // 이하 writeContentBean 내부의 같은 이름을 갖는 변수에 반환값이 담긴다.
             before = true, // 이하 query 보다 먼저 실행할 것인지를 설정.
             resultType = int.class) // 변수에 들어갈 값의 자료유형.
+    // 기존 context_idx 를 결정하던 코드는 @SelectKey 로 빠져버렸으므로 keyProperty 를 id 취급하여 코드를 수정한다.
+    // 결과적으로 기존 sql 과 동일한 코드이다. 기존 코드중 일부가 분리되었을 뿐.
     @Insert("insert into content_table(content_idx, content_subject, content_text, " +
             "content_file, content_writer_idx, content_board_idx, content_date) " +
-            "values ((select max(content_idx) + 1 from content_table ALIAS_FOR_SUBQUERY), " +
-            "#{content_subject}, #{content_text}, #{content_file}, #{content_writer_idx}, " +
+            "values (#{content_idx}, #{content_subject}, #{content_text}, #{content_file}, #{content_writer_idx}, " +
             "#{content_board_idx}, CURRENT_DATE())")
     void addContentInfo(ContentsInfoBean writeContentBean);
 
@@ -34,10 +35,13 @@ public interface BoardMapper {
             "order by a1.content_idx desc ")
     List<ContentsInfoBean> getContentBean(int board_info_idx);
 
+    // 게시글 내용 가져오기. 수정 및 삭제를 위해 필요한 작성자번호 (=content_writer_idx) 를 추가로 가져온다.
     @Select("select a2.user_name as content_writer_name, DATE_FORMAT(a1.content_date, '%Y-%m-%d') as content_date, " +
-            "a1.content_subject, a1.content_text, a1.content_file " +
+            "a1.content_subject, a1.content_text, a1.content_file, a1.content_writer_idx " +
             "from content_table a1, user_table a2 " +
             "where a1.content_writer_idx = a2.user_idx and a1.content_idx = #{content_idx}")
     ContentsInfoBean getContentInfo (int content_idx);
+
+
 
 }

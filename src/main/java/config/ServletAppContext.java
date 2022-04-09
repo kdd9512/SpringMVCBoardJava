@@ -2,6 +2,7 @@ package config;
 
 import beans.MemberInfoBean;
 import interceptor.CheckLoginInterceptor;
+import interceptor.CheckWriterInterceptor;
 import interceptor.TopMenuInterceptor;
 import mapper.BoardMapper;
 import mapper.MemberMapper;
@@ -21,6 +22,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import service.BoardService;
 import service.TopMenuService;
 
 import javax.annotation.Resource;
@@ -53,6 +55,9 @@ public class ServletAppContext implements WebMvcConfigurer{
 
 	@Resource(name = "loginMemberBean")
 	private MemberInfoBean loginMemberBean;
+
+	@Autowired
+	private BoardService boardService;
 
 	// Controller의 메서드가 반환하는 jsp의 이름 앞뒤에 경로와 확장자를 붙혀주도록 설정한다.
 	@Override
@@ -126,6 +131,11 @@ public class ServletAppContext implements WebMvcConfigurer{
 		reg2.addPathPatterns("/member/modify*", "/member/logout", "/board/*");
 		// 이하의 경로에서는 Interceptor 를 적용하지 않는다.
 		reg2.excludePathPatterns("/board/main");
+
+		CheckWriterInterceptor checkWriterInterceptor = new CheckWriterInterceptor(loginMemberBean,boardService);
+		InterceptorRegistration reg3 = registry.addInterceptor(checkWriterInterceptor);
+		reg3.addPathPatterns("/board/modify","/board/delete");
+
 	}
 
 	// 내부설정을 외부에 저장하는 환경설정 파일로 분리하여 DB 정보 properties 등록.
