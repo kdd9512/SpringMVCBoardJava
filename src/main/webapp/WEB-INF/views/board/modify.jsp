@@ -1,6 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<c:set var="root" value="${pageContext.request.contextPath }/"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,35 +25,45 @@
         <div class="col-sm-6">
             <div class="card shadow">
                 <div class="card-body">
-                    <form action="board_modify.html" method="post">
+                    <form:form action="/board/modify_pro" method="post" modelAttribute="modifyContentBean"
+                               enctype="multipart/form-data">
+                        <%-- 어느 게시판에서 수정하는건지 구분하기 위해 게시판 번호와 글 번호를 보낸다. --%>
+                        <form:hidden path="content_board_idx"/>
+                        <form:hidden path="content_idx"/>
                         <div class="form-group">
-                            <label for="board_writer_name">작성자</label>
-                            <input type="text" id="board_writer_name" name="board_writer_name" class="form-control" value="홍길동" disabled="disabled"/>
+                            <form:label path="content_writer_name">작성자</form:label>
+                            <form:input path="content_writer_name" class="form-control" readonly="true"/>
                         </div>
                         <div class="form-group">
-                            <label for="board_date">작성날짜</label>
-                            <input type="text" id="board_date" name="board_date" class="form-control" value="2018-7-20" disabled="disabled"/>
+                            <form:label path="content_date">작성날짜</form:label>
+                            <form:input path="content_date" class="form-control" readonly="true"/>
                         </div>
                         <div class="form-group">
-                            <label for="board_subject">제목</label>
-                            <input type="text" id="board_subject" name="board_subject" class="form-control" value="제목입니다"/>
+                            <form:label path="content_subject">제목</form:label>
+                            <form:input path="content_subject" class="form-control"/>
+                            <form:errors path="content_subject" style="color:red"/>
                         </div>
                         <div class="form-group">
-                            <label for="board_content">내용</label>
-                            <textarea id="board_content" name="board_content" class="form-control" rows="10" style="resize:none">본문입니다</textarea>
+                            <form:label path="content_text">내용</form:label>
+                            <form:textarea path="content_text" class="form-control" rows="10" style="resize:none"/>
+                            <form:errors path="content_text" style="color:red"/>
                         </div>
                         <div class="form-group">
                             <label for="board_file">첨부 이미지</label>
-                            <img src="image/logo.png" width="100%"/>
-                            <input type="file" name="board_file" id="board_file" class="form-control" accept="image/*"/>
+                            <c:if test="${modifyContentBean.content_file != null}">
+                                <img src="/upload/${modifyContentBean.content_file}" width="100%" id="board_file"/>
+                                <form:hidden path="content_file"/> <%-- 첨부하지 않았을 경우 기존 파일 정보를 보내기 위한 hidden --%>
+                            </c:if>
+                            <form:input type="file" path="upload_file" class="form-control" accept="image/*"/>
                         </div>
                         <div class="form-group">
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">수정완료</button>
-                                <a href="<c:url value="/board/board_read"/>" class="btn btn-info">취소</a>
+                                <form:button class="btn btn-primary">수정완료</form:button>
+                                <a href="<c:url value="/board/read?board_info_idx=${board_info_idx}&content_idx=${content_idx}"/>"
+                                   class="btn btn-info">취소</a>
                             </div>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

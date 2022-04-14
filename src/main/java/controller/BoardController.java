@@ -80,9 +80,41 @@ public class BoardController {
     }
 
     @GetMapping("/modify")
-    public String boardModify(){
+    public String boardModify(@RequestParam("board_info_idx") int board_info_idx,
+                              @RequestParam("content_idx") int content_idx,
+                              @ModelAttribute("modifyContentBean") ContentsInfoBean modifyContentBean,
+                              Model model){
+        model.addAttribute("board_info_idx",board_info_idx);
+        model.addAttribute("content_idx", content_idx);
+
+        // BoardService 의 게시글 정보를 가져오는 메서드 (getContentInfo) 호출.
+        ContentsInfoBean tempContentBean = boardService.getContentInfo(content_idx);
+
+        // BoardService 의 게시글 정보를 가져오는 메서드 (getContentInfo) 를 이용하여
+        // 게시글에서 가져와야할 모든 정보를 attribute 에 세팅.
+        modifyContentBean.setContent_writer_name(tempContentBean.getContent_writer_name());
+        modifyContentBean.setContent_date(tempContentBean.getContent_date());
+        modifyContentBean.setContent_subject(tempContentBean.getContent_subject());
+        modifyContentBean.setContent_text(tempContentBean.getContent_text());
+        modifyContentBean.setContent_file(tempContentBean.getContent_file());
+        modifyContentBean.setContent_writer_idx(tempContentBean.getContent_writer_idx());
+        modifyContentBean.setContent_board_idx(tempContentBean.getContent_board_idx());
+        modifyContentBean.setContent_idx(tempContentBean.getContent_idx());
 
         return "/board/modify";
+    }
+
+    @PostMapping("/modify_pro")
+    public String modify_pro(@Valid @ModelAttribute("modifyContentBean") ContentsInfoBean modifyContentBean,
+                             BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "/board/modify";
+        }
+
+        boardService.modifyContentInfo(modifyContentBean);
+
+        return "/board/modify_success";
     }
 
     @GetMapping("/not_writer")
