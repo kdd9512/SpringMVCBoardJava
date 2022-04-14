@@ -98,8 +98,8 @@ public class BoardController {
         modifyContentBean.setContent_text(tempContentBean.getContent_text());
         modifyContentBean.setContent_file(tempContentBean.getContent_file());
         modifyContentBean.setContent_writer_idx(tempContentBean.getContent_writer_idx());
-        modifyContentBean.setContent_board_idx(tempContentBean.getContent_board_idx());
-        modifyContentBean.setContent_idx(tempContentBean.getContent_idx());
+        modifyContentBean.setContent_board_idx(board_info_idx);
+        modifyContentBean.setContent_idx(content_idx);
 
         return "/board/modify";
     }
