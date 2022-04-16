@@ -124,7 +124,13 @@ public class BoardController {
     }
 
     @GetMapping("/remove")
-    public String boardRemove(){
+    public String boardRemove(@RequestParam("board_info_idx") int board_info_idx,
+                              @RequestParam("content_idx") int content_idx,
+                              Model model){
+
+        boardService.removeContentInfo(content_idx);
+
+        model.addAttribute("board_info_idx", board_info_idx);
 
         return "/board/remove";
     }
