@@ -2,6 +2,7 @@ package controller;
 
 import beans.ContentsInfoBean;
 import beans.MemberInfoBean;
+import beans.PagingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,22 +28,26 @@ public class BoardController {
 
     @GetMapping("/main")
     public String boardMain(@RequestParam("board_info_idx") int board_info_idx,
-                            Model model){
+                            @RequestParam(value = "page", defaultValue = "1") int page,
+                            Model model) {
         // 어느 게시판에서 글을 쓰고 있는지를 알아야 하므로 board_info_idx 를 param 으로 보내 구분할 수 있게 한다.
-        model.addAttribute("board_info_idx",board_info_idx);
+        model.addAttribute("board_info_idx", board_info_idx);
 
         String boardInfoName = boardService.getBoardInfoName(board_info_idx);
         model.addAttribute("boardInfoName", boardInfoName);
 
-        List<ContentsInfoBean> contentList = boardService.getContentBean(board_info_idx);
-        model.addAttribute("contentList",contentList);
+        List<ContentsInfoBean> contentList = boardService.getContentBean(board_info_idx, page);
+        model.addAttribute("contentList", contentList);
+
+        PagingBean pagingBean = boardService.getContentCnt(board_info_idx, page);
+        model.addAttribute("pagingBean", pagingBean);
 
         return "/board/main";
     }
 
     @GetMapping("/write")
     public String boardWrite(@ModelAttribute("writeContentBean") ContentsInfoBean writeContentBean,
-                             @RequestParam("board_info_idx") int board_info_idx){
+                             @RequestParam("board_info_idx") int board_info_idx) {
         // 어느 게시판에서 작성하는건지 구분하기 위해 board_info_idx 를 param 으로 보낸다.
         writeContentBean.setContent_board_idx(board_info_idx);
 
@@ -64,17 +69,17 @@ public class BoardController {
     @GetMapping("/read")
     public String boardRead(@RequestParam("board_info_idx") int board_info_idx,
                             @RequestParam("content_idx") int content_idx,
-                            Model model){
+                            Model model) {
 
-        model.addAttribute("board_info_idx",board_info_idx);
+        model.addAttribute("board_info_idx", board_info_idx);
         model.addAttribute("content_idx", content_idx); // 수정 / 삭제를 위한 글의 번호를 model 에 담는다.
 
         ContentsInfoBean readContentBean = boardService.getContentInfo(content_idx);
-        model.addAttribute("readContentBean",readContentBean); // 게시글의 내용이 담긴 attribute
+        model.addAttribute("readContentBean", readContentBean); // 게시글의 내용이 담긴 attribute
 
         // 사용자 정보와 글 작성자 번호를 비교하기 위한 attribute 주입.
         // sql 로 가져온 content_writer_idx 의 값과 비교하게 될 것.
-        model.addAttribute("loginMemberBean",loginMemberBean);
+        model.addAttribute("loginMemberBean", loginMemberBean);
 
         return "/board/read";
     }
@@ -83,8 +88,8 @@ public class BoardController {
     public String boardModify(@RequestParam("board_info_idx") int board_info_idx,
                               @RequestParam("content_idx") int content_idx,
                               @ModelAttribute("modifyContentBean") ContentsInfoBean modifyContentBean,
-                              Model model){
-        model.addAttribute("board_info_idx",board_info_idx);
+                              Model model) {
+        model.addAttribute("board_info_idx", board_info_idx);
         model.addAttribute("content_idx", content_idx);
 
         // BoardService 의 게시글 정보를 가져오는 메서드 (getContentInfo) 호출.
@@ -118,7 +123,7 @@ public class BoardController {
     }
 
     @GetMapping("/not_writer")
-    public String not_writer(){
+    public String not_writer() {
 
         return "/board/not_writer";
     }
@@ -126,7 +131,7 @@ public class BoardController {
     @GetMapping("/remove")
     public String boardRemove(@RequestParam("board_info_idx") int board_info_idx,
                               @RequestParam("content_idx") int content_idx,
-                              Model model){
+                              Model model) {
 
         boardService.removeContentInfo(content_idx);
 

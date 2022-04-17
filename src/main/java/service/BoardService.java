@@ -2,7 +2,9 @@ package service;
 
 import beans.ContentsInfoBean;
 import beans.MemberInfoBean;
+import beans.PagingBean;
 import dao.BoardDAO;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.io.File;
 import java.util.List;
 
@@ -20,6 +21,12 @@ public class BoardService {
 
     @Value("${path.upload}")
     private String path_upload;
+
+    @Value("${page.listcnt}")
+    private int page_listcnt;
+
+    @Value("${page.paginationcnt}")
+    private int page_paginationcnt;
 
     @Autowired
     private BoardDAO boardDAO;
@@ -57,8 +64,11 @@ public class BoardService {
         return boardDAO.getBoardInfoName(board_info_idx);
     }
 
-    public List<ContentsInfoBean> getContentBean (int board_info_idx) {
-        return boardDAO.getContentBean(board_info_idx);
+    public List<ContentsInfoBean> getContentBean(int board_info_idx, int page) {
+        int start = (page - 1) * page_listcnt;
+        RowBounds rowBounds = new RowBounds(start, page_listcnt);
+
+        return boardDAO.getContentBean(board_info_idx, rowBounds);
     }
 
     public ContentsInfoBean getContentInfo(int content_idx) {
@@ -82,6 +92,13 @@ public class BoardService {
 
         boardDAO.removeContentInfo(content_idx);
 
+    }
+
+    public PagingBean getContentCnt(int content_board_idx, int currPage) {
+
+        int content_cnt = boardDAO.getContentCnt(content_board_idx);
+
+        return new PagingBean(content_cnt, currPage, page_listcnt, page_paginationcnt);
     }
 
 }

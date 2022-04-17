@@ -2,6 +2,7 @@ package mapper;
 
 import beans.ContentsInfoBean;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface BoardMapper {
             "from content_table a1, user_table a2 " +
             "where a1.content_writer_idx = a2.user_idx and a1.content_board_idx = #{board_info_idx} " +
             "order by a1.content_idx desc ")
-    List<ContentsInfoBean> getContentBean(int board_info_idx);
+    List<ContentsInfoBean> getContentBean(int board_info_idx, RowBounds rowBounds);
 
     // 게시글 내용 가져오기. 수정 및 삭제를 위해 필요한 작성자번호 (=content_writer_idx) 를 추가로 가져온다.
     @Select("select a2.user_name as content_writer_name, DATE_FORMAT(a1.content_date, '%Y-%m-%d') as content_date, " +
@@ -49,6 +50,11 @@ public interface BoardMapper {
     @Delete("delete from content_table " +
             "where content_idx = #{content_idx}")
     void removeContentInfo(int content_idx);
+
+    @Select("select count(*) from content_table " +
+            "where content_board_idx = #{content_board_idx}")
+    int getContentCnt(int content_board_idx);
+
 
 
 }
