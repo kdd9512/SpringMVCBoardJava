@@ -51,10 +51,10 @@
                     </c:if>
                     <div class="form-group">
                         <div class="text-right">
-                            <a href="<c:url value="/board/main?board_info_idx=${board_info_idx}"/>"
+                            <a href="<c:url value="/board/main?board_info_idx=${board_info_idx}&page=${page}"/>"
                                class="btn btn-primary">목록보기</a>
                             <c:if test="${loginMemberBean.user_idx == readContentBean.content_writer_idx}">
-                                <a href="<c:url value="/board/modify?board_info_idx=${board_info_idx}&content_idx=${content_idx}"/>"
+                                <a href="<c:url value="/board/modify?board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}"/>"
                                    class="btn btn-info">수정하기</a>
                                 <a href="<c:url value="/board/remove?board_info_idx=${board_info_idx}&content_idx=${content_idx}"/>"
                                    class="btn btn-danger">삭제하기</a>

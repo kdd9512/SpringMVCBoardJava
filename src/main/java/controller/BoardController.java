@@ -42,6 +42,8 @@ public class BoardController {
         PagingBean pagingBean = boardService.getContentCnt(board_info_idx, page);
         model.addAttribute("pagingBean", pagingBean);
 
+        model.addAttribute("page", page);
+
         return "/board/main";
     }
 
@@ -69,10 +71,12 @@ public class BoardController {
     @GetMapping("/read")
     public String boardRead(@RequestParam("board_info_idx") int board_info_idx,
                             @RequestParam("content_idx") int content_idx,
+                            @RequestParam("page") int page,
                             Model model) {
 
         model.addAttribute("board_info_idx", board_info_idx);
         model.addAttribute("content_idx", content_idx); // 수정 / 삭제를 위한 글의 번호를 model 에 담는다.
+        model.addAttribute("page", page);
 
         ContentsInfoBean readContentBean = boardService.getContentInfo(content_idx);
         model.addAttribute("readContentBean", readContentBean); // 게시글의 내용이 담긴 attribute
