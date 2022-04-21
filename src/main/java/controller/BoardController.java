@@ -28,7 +28,7 @@ public class BoardController {
 
     @GetMapping("/main")
     public String boardMain(@RequestParam("board_info_idx") int board_info_idx,
-                            @RequestParam(value = "page", defaultValue = "1") int page,
+                            @RequestParam(value = "page", defaultValue = "1") int page, // 페이징에 사용할 parameter "page" 를 정의.
                             Model model) {
         // 어느 게시판에서 글을 쓰고 있는지를 알아야 하므로 board_info_idx 를 param 으로 보내 구분할 수 있게 한다.
         model.addAttribute("board_info_idx", board_info_idx);
@@ -49,7 +49,11 @@ public class BoardController {
 
     @GetMapping("/write")
     public String boardWrite(@ModelAttribute("writeContentBean") ContentsInfoBean writeContentBean,
-                             @RequestParam("board_info_idx") int board_info_idx) {
+                             @RequestParam("board_info_idx") int board_info_idx,
+                             @RequestParam("page") int page,
+                             Model model) {
+
+        model.addAttribute("page",page);
         // 어느 게시판에서 작성하는건지 구분하기 위해 board_info_idx 를 param 으로 보낸다.
         writeContentBean.setContent_board_idx(board_info_idx);
 
@@ -58,7 +62,12 @@ public class BoardController {
 
     @PostMapping("/write_pro")
     public String write_pro(@Valid @ModelAttribute("writeContentBean") ContentsInfoBean writeContentBean,
+                            @RequestParam("page") int page,
+                            Model model,
                             BindingResult result) {
+
+        model.addAttribute("page", page);
+
         if (result.hasErrors()) {
             return "/board/write";
         }
@@ -91,10 +100,12 @@ public class BoardController {
     @GetMapping("/modify")
     public String boardModify(@RequestParam("board_info_idx") int board_info_idx,
                               @RequestParam("content_idx") int content_idx,
+                              @RequestParam("page") int page, // page 이동을 위한 parameter
                               @ModelAttribute("modifyContentBean") ContentsInfoBean modifyContentBean,
                               Model model) {
         model.addAttribute("board_info_idx", board_info_idx);
         model.addAttribute("content_idx", content_idx);
+        model.addAttribute("page", page);
 
         // BoardService 의 게시글 정보를 가져오는 메서드 (getContentInfo) 호출.
         ContentsInfoBean tempContentBean = boardService.getContentInfo(content_idx);
@@ -115,7 +126,11 @@ public class BoardController {
 
     @PostMapping("/modify_pro")
     public String modify_pro(@Valid @ModelAttribute("modifyContentBean") ContentsInfoBean modifyContentBean,
+                             @RequestParam("page") int page,
+                             Model model,
                              BindingResult result) {
+
+        model.addAttribute("page", page);
 
         if (result.hasErrors()) {
             return "/board/modify";

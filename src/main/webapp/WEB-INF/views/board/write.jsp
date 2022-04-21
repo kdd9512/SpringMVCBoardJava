@@ -29,6 +29,7 @@
                     <form:form action="/board/write_pro" method="post" modelAttribute="writeContentBean" enctype="multipart/form-data">
                         <%-- 어느 게시판에서 작성하는건지 구분하기 위해 게시판 번호를 보낸다. --%>
                         <form:hidden path="content_board_idx"/>
+                        <input type="hidden" name="page" value="${page}"/>
                         <div class="form-group">
                             <form:label path="content_subject">제목</form:label>
                             <form:input path="content_subject" class="form-control"/>

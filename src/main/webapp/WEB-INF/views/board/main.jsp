@@ -101,7 +101,7 @@
                     Controller 의 Model 에서 저장한 props "board_info_idx" 를 main 에 넘겼으므로,
                     글쓰기를 호출한 게시판이 어디인지 구별 가능하다.
                 --%>
-                <a href="<c:url value="/board/write?board_info_idx=${board_info_idx}"/>" class="btn btn-primary">글쓰기</a>
+                <a href="<c:url value="/board/write?board_info_idx=${board_info_idx}&page=${page}"/>" class="btn btn-primary">글쓰기</a>
             </div>
 
         </div>

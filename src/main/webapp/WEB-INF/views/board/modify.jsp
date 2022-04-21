@@ -30,6 +30,7 @@
                         <%-- 어느 게시판에서 수정하는건지 구분하기 위해 게시판 번호와 글 번호를 보낸다. --%>
                         <form:hidden path="content_board_idx"/>
                         <form:hidden path="content_idx"/>
+                        <input type="hidden" name="page" value="${page}"/>
                         <div class="form-group">
                             <form:label path="content_writer_name">작성자</form:label>
                             <form:input path="content_writer_name" class="form-control" readonly="true"/>
@@ -59,7 +60,7 @@
                         <div class="form-group">
                             <div class="text-right">
                                 <form:button class="btn btn-primary">수정완료</form:button>
-                                <a href="<c:url value="/board/read?board_info_idx=${board_info_idx}&content_idx=${content_idx}"/>"
+                                <a href="<c:url value="/board/read?board_info_idx=${board_info_idx}&content_idx=${content_idx}&page=${page}"/>"
                                    class="btn btn-info">취소</a>
                             </div>
                         </div>
